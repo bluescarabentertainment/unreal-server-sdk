@@ -27,7 +27,7 @@ void ULootLockerServerCharacterRequest::GetPlayerCharacters(int PlayerId,
             }
             else {
                 ResponseStruct.success = false;
-                UE_LOG(LogTemp, Error, TEXT("Getting player failed from lootlocker"));
+                UE_LOG(LogLootLockerServer, Error, TEXT("Getting player failed from lootlocker"));
             }
             ResponseStruct.FullTextFromServer = response.FullTextFromServer;
             OnCompletedRequestBP.ExecuteIfBound(ResponseStruct);
@@ -57,7 +57,7 @@ void ULootLockerServerCharacterRequest::GetInventoryToCharacter(int PlayerId, in
             }
             else {
                 ResponseStruct.success = false;
-                UE_LOG(LogTemp, Error, TEXT("Getting player failed from lootlocker"));
+                UE_LOG(LogLootLockerServer, Error, TEXT("Getting player failed from lootlocker"));
             }
             ResponseStruct.FullTextFromServer = response.FullTextFromServer;
             OnCompletedRequestBP.ExecuteIfBound(ResponseStruct);
@@ -83,7 +83,7 @@ void ULootLockerServerCharacterRequest::GetCharacterLoadout(int PlayerId, int Ch
             }
             else {
                 ResponseStruct.success = false;
-                UE_LOG(LogTemp, Error, TEXT("Getting player failed from lootlocker"));
+                UE_LOG(LogLootLockerServer, Error, TEXT("Getting player failed from lootlocker"));
             }
             ResponseStruct.FullTextFromServer = response.FullTextFromServer;
             OnCompletedRequestBP.ExecuteIfBound(ResponseStruct);
@@ -112,7 +112,7 @@ void ULootLockerServerCharacterRequest::EquipAssetForCharacterLoadout(int Player
             }
             else {
                 ResponseStruct.success = false;
-                UE_LOG(LogTemp, Error, TEXT("Getting player failed from lootlocker"));
+                UE_LOG(LogLootLockerServer, Error, TEXT("Getting player failed from lootlocker"));
             }
             ResponseStruct.FullTextFromServer = response.FullTextFromServer;
             OnCompletedRequestBP.ExecuteIfBound(ResponseStruct);
@@ -146,7 +146,7 @@ void ULootLockerServerCharacterRequest::UnequipAssetForCharacterLoadout(int Play
             }
             else {
                 ResponseStruct.success = false;
-                UE_LOG(LogTemp, Error, TEXT("Getting player failed from lootlocker"));
+                UE_LOG(LogLootLockerServer, Error, TEXT("Getting player failed from lootlocker"));
             }
             ResponseStruct.FullTextFromServer = response.FullTextFromServer;
             OnCompletedRequestBP.ExecuteIfBound(ResponseStruct);
