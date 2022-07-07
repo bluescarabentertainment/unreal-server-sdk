@@ -27,7 +27,7 @@ void ULootLockerServerFilesRequest::ListFilesForPlayer(int PlayerId,
             }
             else {
                 ResponseStruct.success = false;
-                UE_LOG(LogTemp, Error, TEXT("Listing player files from lootlocker failed"));
+                UE_LOG(LogLootLockerServer, Error, TEXT("Listing player files from lootlocker failed"));
             }
             ResponseStruct.FullTextFromServer = Response.FullTextFromServer;
             OnCompletedRequestBP.ExecuteIfBound(ResponseStruct);
@@ -55,7 +55,7 @@ void ULootLockerServerFilesRequest::GetFileByIdForPlayer(int PlayerId, int FileI
         }
         else {
             ResponseStruct.success = false;
-            UE_LOG(LogTemp, Error, TEXT("Getting player file from lootlocker failed"));
+            UE_LOG(LogLootLockerServer, Error, TEXT("Getting player file from lootlocker failed"));
         }
         ResponseStruct.FullTextFromServer = Response.FullTextFromServer;
         OnCompletedRequestBP.ExecuteIfBound(ResponseStruct);
@@ -84,7 +84,7 @@ void ULootLockerServerFilesRequest::UploadFileForPlayer(int PlayerId, const FStr
         }
         else {
             ResponseStruct.success = false;
-            UE_LOG(LogTemp, Error, TEXT("Uploading player file to lootlocker failed"));
+            UE_LOG(LogLootLockerServer, Error, TEXT("Uploading player file to lootlocker failed"));
         }
         ResponseStruct.FullTextFromServer = Response.FullTextFromServer;
         OnCompletedRequestBP.ExecuteIfBound(ResponseStruct);
@@ -114,7 +114,7 @@ void ULootLockerServerFilesRequest::DeleteFileForPlayer(int PlayerId, int FileId
         }
         else {
             ResponseStruct.success = false;
-            UE_LOG(LogTemp, Error, TEXT("DeleteFileForPlayer failed from lootlocker"));
+            UE_LOG(LogLootLockerServer, Error, TEXT("DeleteFileForPlayer failed from lootlocker"));
         }
         ResponseStruct.ServerCallStatusCode = Response.ServerCallStatusCode;
         ResponseStruct.ServerCallHasError = Response.ServerCallHasError;
