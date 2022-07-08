@@ -12,7 +12,7 @@
 #include "ServerAPI/LootLockerServerStorageRequest.h"
 #include "ServerAPI/LootLockerServerTriggerRequest.h"
 #include "ServerAPI/LootLockerServerLeaderboardRequest.h"
-
+#include "ServerAPI/LLServerDropTablesRequestHandler.h"
 
 #include "LootLockerServerSDKManager.generated.h"
 
@@ -35,7 +35,7 @@ public:
      */
 	static void StartSession(const FServerAuthResponse& OnCompletedRequest);
 
-    static void MaintainSession(const FServerAuthResponse& OnCompletedRequest);
+    static void MaintainSession(const FServerPingResponse& OnCompletedRequest);
 
 	/**
 	* Get all assets in a paginated form.

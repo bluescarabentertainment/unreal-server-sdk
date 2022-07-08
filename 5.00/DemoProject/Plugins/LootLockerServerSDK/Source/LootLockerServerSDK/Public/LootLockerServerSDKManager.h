@@ -35,7 +35,7 @@ public:
      */
 	static void StartSession(const FServerAuthResponse& OnCompletedRequest);
 
-    static void MaintainSession(const FServerAuthResponse& OnCompletedRequest);
+    static void MaintainSession(const FServerPingResponse& OnCompletedRequest);
 
 	/**
 	* Get all assets in a paginated form.
