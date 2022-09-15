@@ -7,6 +7,7 @@
 #include "LootLockerServerGameEndpoints.h"
 
 ULootLockerServerHttpClient* ULootLockerServerPlayerRequest::HttpClient = nullptr;
+
 // Sets default values for this component's properties
 ULootLockerServerPlayerRequest::ULootLockerServerPlayerRequest()
 {
@@ -209,7 +210,20 @@ void ULootLockerServerPlayerRequest::UnequipAssetForPlayerLoadout(int PlayerId, 
 	HttpClient->SendApi(endpoint, requestMethod, ContentString, sessionResponse, true);
 }
 
-void ULootLockerServerPlayerRequest::LookupPlayerNames(struct FPlayerNameQuery Query,
+ void ULootLockerServerPlayerRequest::AppendQueryParameters(const FString& Key, const TArray<FString>& Values, TArray<FString> &OutParams)
+{
+	if (!Values.IsEmpty())
+	{
+		int Index = OutParams.Num();
+		OutParams.SetNum(Index + Values.Num());
+		for (FString const& PublicUid : Values)
+		{
+			OutParams[Index++] = Key + PublicUid;
+		}
+	}
+}
+
+void ULootLockerServerPlayerRequest::LookupPlayerNames(FLookupPlayerNamesQuery const& Query,
 	const FLookupPlayerNamesResponseBP& OnCompletedRequestBP, const FLookupPlayerNamesDelegate& OnCompletedRequest)
 {
     FServerResponseCallback sessionResponse = FServerResponseCallback::CreateLambda([OnCompletedRequestBP, OnCompletedRequest](FLootLockerServerResponse response)
@@ -231,41 +245,20 @@ void ULootLockerServerPlayerRequest::LookupPlayerNames(struct FPlayerNameQuery Q
     FString const ContentString;
     FLootLockerServerEndPoints Endpoint = ULootLockerServerGameEndpoints::LookupPlayerNamesEndpoint;
 	FString const requestMethod = ULootLockerServerConfig::GetEnum(TEXT("ELootLockerServerHTTPMethod"), static_cast<int32>(Endpoint.requestMethod));
-    TStringBuilder<8000> UrlBuilder;
-	UrlBuilder << Endpoint.endpoint;
-	bool FirstParameter = true; 
-    for (int32 const PlayerId : Query.PlayerIds) {
-        if (FirstParameter) {
-            UrlBuilder << "?";
-        	FirstParameter = false;
-        }
-    	else
-    	{
-            UrlBuilder << "&";
-    	}
-        UrlBuilder << "player_id=" << PlayerId;
-    }
-	for (FString const& Uid : Query.PublicUids) {
-		if (FirstParameter) {
-			UrlBuilder << "?";
-			FirstParameter = false;
+
+	TArray<FString> Params;
+	if (!Query.PlayerIds.IsEmpty())
+	{
+		int Index = 0;
+		Params.SetNum(Query.PlayerIds.Num());
+		FString Key = TEXT("player_id=");
+		for (int32 const PlayerId : Query.PlayerIds) {
+			Params[Index++] = Key + FString::FromInt(PlayerId); 
 		}
-		else
-		{
-			UrlBuilder << "&";
-		}
-		UrlBuilder << "player_public_uid=" << Uid;
+		check(Index == Params.Num());
 	}
-	for (FPlatformId const& PlatformId : Query.PlatformIds) {
-		if (FirstParameter) {
-			UrlBuilder << "?";
-			FirstParameter = false;
-		}
-		else
-		{
-			UrlBuilder << "&";
-		}
-		UrlBuilder << PlatformId.Platform << "_id=" << PlatformId.Id;
-	}
-	HttpClient->SendApi(UrlBuilder.ToString(), requestMethod, ContentString, sessionResponse, true);
+	AppendQueryParameters(TEXT("player_public_uid="), Query.PublicUids, Params);
+	AppendQueryParameters(TEXT("player_guest_login_id="), Query.GuestIds, Params);
+	FString const Url = Endpoint.endpoint + "?" + FString::Join(Params, TEXT("&"));
+	HttpClient->SendApi(Url, requestMethod, ContentString, sessionResponse, true);
 }

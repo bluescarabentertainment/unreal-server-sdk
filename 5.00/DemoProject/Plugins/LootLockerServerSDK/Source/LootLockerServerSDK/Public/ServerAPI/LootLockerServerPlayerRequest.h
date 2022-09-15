@@ -12,18 +12,18 @@
 #include "LootLockerServerPlayerRequest.generated.h"
 
 USTRUCT(BlueprintType)
-struct FPlatformId {
+struct FPlatformIds {
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "LootLocker")
 	FString Platform;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "LootLocker")
-	FString Id;
+	TArray<FString> Ids;
 };
 
 USTRUCT(BlueprintType)
-struct FPlayerNameQuery {
+struct FLookupPlayerNamesQuery {
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "LootLocker")
@@ -31,7 +31,7 @@ struct FPlayerNameQuery {
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "LootLocker")
 	TArray<FString> PublicUids;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "LootLocker")
-	TArray<FPlatformId> PlatformIds;
+	TArray<FString> GuestIds;
 };
 
 USTRUCT(BlueprintType)
@@ -220,8 +220,11 @@ public:
 
 	static void UnequipAssetForPlayerLoadout(int PlayerId, int LoadoutId, const FUnequipAssetResponseBP& OnCompletedRequestBP = FUnequipAssetResponseBP(), const FUnequipAssetResponse& OnCompletedRequest = FUnequipAssetResponse());
 
-	static void LookupPlayerNames(struct FPlayerNameQuery Query, const FLookupPlayerNamesResponseBP& OnCompletedRequestBP = FLookupPlayerNamesResponseBP(), const FLookupPlayerNamesDelegate& OnCompletedRequest = FLookupPlayerNamesDelegate());
+	static void LookupPlayerNames(FLookupPlayerNamesQuery const& Query, const FLookupPlayerNamesResponseBP& OnCompletedRequestBP = FLookupPlayerNamesResponseBP(), const FLookupPlayerNamesDelegate& OnCompletedRequest = FLookupPlayerNamesDelegate());
 
 protected:
 	static ULootLockerServerHttpClient* HttpClient;
+
+private:
+	static void AppendQueryParameters(const FString& Key, const TArray<FString>& Values, TArray<FString> &OutParams);
 };

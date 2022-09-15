@@ -132,7 +132,7 @@ void ULootLockerServerSDKManager::InvokeTriggerOnBehalfOfPlayer(const FInvokeTri
 	ULootLockerServerTriggerRequest::InvokeTriggerOnBehalfOfPlayer(Name, PlayerId, FInvokeTriggerResponseBP(), OnCompletedRequest);
 }
 
-void ULootLockerServerSDKManager::LookupPlayerNames(const FLookupPlayerNamesDelegate& OnCompletedRequest, struct FPlayerNameQuery Query)
+void ULootLockerServerSDKManager::LookupPlayerNames(const FLookupPlayerNamesDelegate& OnCompletedRequest, struct FLookupPlayerNamesQuery Query)
 {
 	ULootLockerServerPlayerRequest::LookupPlayerNames(Query, FLookupPlayerNamesResponseBP(), OnCompletedRequest);
 }

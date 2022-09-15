@@ -222,7 +222,7 @@ public:
 	/**
 	* Lookup multiple player names using IDs
 	*/
-	static void LookupPlayerNames(const FLookupPlayerNamesDelegate& OnCompletedRequest, struct FPlayerNameQuery Query);
+	static void LookupPlayerNames(const FLookupPlayerNamesDelegate& OnCompletedRequest, struct FLookupPlayerNamesQuery Query);
 
 	//==================================================
     //Leaderboard

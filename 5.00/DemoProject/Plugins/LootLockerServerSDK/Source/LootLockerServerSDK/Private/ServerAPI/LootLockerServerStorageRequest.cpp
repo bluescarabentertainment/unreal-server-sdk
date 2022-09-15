@@ -13,7 +13,7 @@ ULootLockerServerStorageRequest::ULootLockerServerStorageRequest()
 	HttpClient = NewObject<ULootLockerServerHttpClient>();
 }
 
-void ULootLockerServerStorageRequest::GetPersistentStorage(TArray<int> PlayerIds,
+void ULootLockerServerStorageRequest::GetPersistentStorage(TArray<int> const& PlayerIds,
 	const FGetPersistentStorageResponseBP& OnCompletedRequestBP,
 	const FGetPersistentStorageResponse& OnCompletedRequest)
 {

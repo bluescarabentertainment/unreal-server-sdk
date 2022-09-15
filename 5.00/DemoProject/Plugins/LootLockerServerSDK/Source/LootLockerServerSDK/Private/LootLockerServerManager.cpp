@@ -62,13 +62,13 @@ void ULootLockerServerManager::UnequipAssetForPlayerLoadout(const FUnequipAssetR
     ULootLockerServerPlayerRequest::UnequipAssetForPlayerLoadout(PlayerId, LoadoutId, OnRequestCompleted, FUnequipAssetResponse());
 }
 
-void ULootLockerServerManager::LookupPlayerNames(const FLookupPlayerNamesResponseBP& OnRequestCompleted, struct FPlayerNameQuery Query)
+void ULootLockerServerManager::LookupPlayerNames(FLookupPlayerNamesResponseBP const& OnRequestCompleted, FLookupPlayerNamesQuery const& Query)
 {
     ULootLockerServerPlayerRequest::LookupPlayerNames(Query, OnRequestCompleted);
 }
 
 void ULootLockerServerManager::GetPersistentStorage(const FGetPersistentStorageResponseBP& OnRequestCompleted,
-    TArray<int> PlayerIds)
+    TArray<int> const &PlayerIds)
 {
     ULootLockerServerStorageRequest::GetPersistentStorage(PlayerIds, OnRequestCompleted, FGetPersistentStorageResponse());
 }
