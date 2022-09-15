@@ -31,6 +31,8 @@ public:
     static FLootLockerServerEndPoints GetFileByIdForPlayerEndpoint;
     static FLootLockerServerEndPoints UploadFileForPlayerEndpoint;
     static FLootLockerServerEndPoints DeleteFileForPlayerEndpoint;
+    // Player Lookup
+    static FLootLockerServerEndPoints LookupPlayerNamesEndpoint;
     //Characters & Heroes
     static FLootLockerServerEndPoints GetPlayerCharactersEndpoint;
     static FLootLockerServerEndPoints GetInventorytoCharacterEndpoint;

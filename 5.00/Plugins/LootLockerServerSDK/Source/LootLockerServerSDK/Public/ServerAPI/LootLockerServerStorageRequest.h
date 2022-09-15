@@ -108,7 +108,7 @@ class LOOTLOCKERSERVERSDK_API ULootLockerServerStorageRequest : public UObject
 	public:	
 	ULootLockerServerStorageRequest();
 
-	static void GetPersistentStorage(TArray<int> PlayerIds, const FGetPersistentStorageResponseBP& OnCompletedRequestBP = FGetPersistentStorageResponseBP(), const FGetPersistentStorageResponse& OnCompletedRequest = FGetPersistentStorageResponse());
+	static void GetPersistentStorage(TArray<int> const& PlayerIds, const FGetPersistentStorageResponseBP& OnCompletedRequestBP = FGetPersistentStorageResponseBP(), const FGetPersistentStorageResponse& OnCompletedRequest = FGetPersistentStorageResponse());
 	static void UpdatePersistentStorage(FLootLockerServerPersistentStorageRequestData requestData, const FUpdatePersistentStorageResponseBP& OnCompletedRequestBP = FUpdatePersistentStorageResponseBP(), const FUpdatePersistentStorageResponse& OnCompletedRequest = FUpdatePersistentStorageResponse());
 
 	static ULootLockerServerHttpClient* HttpClient;	

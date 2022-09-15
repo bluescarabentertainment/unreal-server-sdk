@@ -12,7 +12,7 @@
 #include "ServerAPI/LootLockerServerStorageRequest.h"
 #include "ServerAPI/LootLockerServerTriggerRequest.h"
 #include "ServerAPI/LootLockerServerLeaderboardRequest.h"
-#include "ServerAPI/LLServerDropTablesRequestHandler.h"
+
 
 #include "LootLockerServerSDKManager.generated.h"
 
@@ -219,6 +219,11 @@ public:
 	 */ 
     static void InvokeTriggerOnBehalfOfPlayer(const FInvokeTriggerResponse& OnCompletedRequest, FString Name, int PlayerId);
 
+	/**
+	* Lookup multiple player names using IDs
+	*/
+	static void LookupPlayerNames(const FLookupPlayerNamesDelegate& OnCompletedRequest, struct FLookupPlayerNamesQuery Query);
+
 	//==================================================
     //Leaderboard
     //==================================================
@@ -272,29 +277,4 @@ public:
 	static void GetFileByIdForPlayer(int PlayerId, int FileId, const FServerGetFileByIdForPlayerResponseDelegate& OnCompletedRequest);
 	static void DeleteFileForPlayer(int PlayerId, int FileId, const FServerDeleteFileForPlayerResponseDelegate& OnCompletedRequest);
 	static void UploadFileForPlayer(int PlayerId, const FString& FileName, const FString& Purpose, const FServerUploadFileForPlayerResponseDelegate& OnCompletedRequest);
-
-//==================================================
-//Drop Table
-//==================================================
-/**
-* Collecting an Item is done by calling this endpoint with a payload equal to the slug of the Item.
-* The slug is a combination of the name of the Collectable, the Group and the Item. Simply concatenate them with a . as a seperator.
-* @param LeaderboardId - the id of the leaderboard you need to connect to.
-* @param MemberId - the id of player in the leaderboard.
-* @param Score - the score to be submitted.
-*
-* https://ref.lootlocker.io/game-api/#submit-scorem
-*/
-	static void ComputeAndLockDropTable(int TableId, const FLootLockerServerComputeAndLockDropTableResponseDelegate& OnCompletedRequest);
-
-	/**
-   * Collecting an Item is done by calling this endpoint with a payload equal to the slug of the Item.
-   * The slug is a combination of the name of the Collectable, the Group and the Item. Simply concatenate them with a . as a seperator.
-   * @param LeaderboardId - the id of the leaderboard you need to connect to.
-   * @param MemberId - the id of player in the leaderboard.
-   * @param Score - the score to be submitted.
-   *
-   * https://ref.lootlocker.io/game-api/#submit-scorem
-   */
-	static void PickDropsFromDropTable(TArray<int> picks, int TableId, const FLootLockerServerPickDropsFromDropTableResponseDelegate& OnCompletedRequest);
 };

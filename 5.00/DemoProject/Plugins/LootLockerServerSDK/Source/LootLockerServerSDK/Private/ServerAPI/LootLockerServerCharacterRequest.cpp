@@ -39,6 +39,7 @@ void ULootLockerServerCharacterRequest::GetPlayerCharacters(int PlayerId,
 	FString endpoint = FString::Format(*(Endpoint.endpoint), { PlayerId });
 	FString requestMethod = ULootLockerServerConfig::GetEnum(TEXT("ELootLockerServerHTTPMethod"), static_cast<int32>(Endpoint.requestMethod));
 
+	UE_LOG(LogLootLockerServer, Log, TEXT("data=%s"), *ContentString);
 	HttpClient->SendApi(endpoint, requestMethod, ContentString, sessionResponse, true);
 }
 

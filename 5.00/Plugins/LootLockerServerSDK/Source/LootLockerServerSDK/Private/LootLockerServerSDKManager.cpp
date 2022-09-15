@@ -132,6 +132,11 @@ void ULootLockerServerSDKManager::InvokeTriggerOnBehalfOfPlayer(const FInvokeTri
 	ULootLockerServerTriggerRequest::InvokeTriggerOnBehalfOfPlayer(Name, PlayerId, FInvokeTriggerResponseBP(), OnCompletedRequest);
 }
 
+void ULootLockerServerSDKManager::LookupPlayerNames(const FLookupPlayerNamesDelegate& OnCompletedRequest, struct FLookupPlayerNamesQuery Query)
+{
+	ULootLockerServerPlayerRequest::LookupPlayerNames(Query, FLookupPlayerNamesResponseBP(), OnCompletedRequest);
+}
+
 void ULootLockerServerSDKManager::CreateLeaderboard(const FLootLockerServerCreateLeaderboardRequest& CreateLeaderboardRequest, const FLootLockerServerCreateLeaderboardResponseDelegate& OnCompletedRequest)
 {
 	ULootLockerServerLeaderboardRequest::CreateLeaderboard(CreateLeaderboardRequest, FLootLockerServerCreateLeaderboardResponseBP(), OnCompletedRequest);

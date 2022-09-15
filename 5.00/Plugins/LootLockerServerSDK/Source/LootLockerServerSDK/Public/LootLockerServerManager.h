@@ -9,9 +9,11 @@
 #include "ServerAPI/LootLockerServerCharacterRequest.h"
 #include "ServerAPI/LootLockerServerFilesRequest.h"
 #include "ServerAPI/LootLockerServerHeroesRequest.h"
+#include "ServerAPI/LootLockerServerPlayerRequest.h"
 #include "ServerAPI/LootLockerServerStorageRequest.h"
 #include "ServerAPI/LootLockerServerTriggerRequest.h"
 #include "ServerAPI/LootLockerServerLeaderboardRequest.h"
+
 
 #include "LootLockerServerManager.generated.h"
 
@@ -94,11 +96,18 @@ public:
 	static void UnequipAssetForPlayerLoadout(const FUnequipAssetResponseBP& OnRequestCompleted, int PlayerId, int LoadoutId);
 
 	/**
+	 * Lookup multiple player names using IDs
+	 * https://ref.lootlocker.com/server-api/#lookup-multiple-player-names-using-ids
+	 */
+	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Players")
+	static void LookupPlayerNames(FLookupPlayerNamesResponseBP const& OnRequestCompleted, FLookupPlayerNamesQuery const& Query);
+
+	/**
 	 * Read player storage one or more players
 	 * https://docs.lootlocker.io/server-api/#player-persistent-storage
 	 */
 	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Players")
-	static void GetPersistentStorage(const FGetPersistentStorageResponseBP& OnRequestCompleted, TArray<int> PlayerIds);
+	static void GetPersistentStorage(const FGetPersistentStorageResponseBP& OnRequestCompleted, TArray<int> const& PlayerIds);
 
 	/**
 	 * Update Persistent Storage
