@@ -95,6 +95,13 @@ public:
 	static void UnequipAssetForPlayerLoadout(const FUnequipAssetResponseBP& OnRequestCompleted, int PlayerId, int LoadoutId);
 
 	/**
+	 * Lookup multiple player names using IDs
+	 * https://ref.lootlocker.com/server-api/#lookup-multiple-player-names-using-ids
+	 */
+	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Players")
+	static void LookupPlayerNames(const FLookupPlayerNamesResponseBP& OnRequestCompleted, struct FPlayerNameQuery Query);
+
+	/**
 	 * Read player storage one or more players
 	 * https://docs.lootlocker.io/server-api/#player-persistent-storage
 	 */

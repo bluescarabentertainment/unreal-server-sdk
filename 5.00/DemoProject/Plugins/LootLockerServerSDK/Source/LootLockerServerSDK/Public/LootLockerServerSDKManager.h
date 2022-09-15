@@ -219,6 +219,11 @@ public:
 	 */ 
     static void InvokeTriggerOnBehalfOfPlayer(const FInvokeTriggerResponse& OnCompletedRequest, FString Name, int PlayerId);
 
+	/**
+	* Lookup multiple player names using IDs
+	*/
+	static void LookupPlayerNames(const FLookupPlayerNamesDelegate& OnCompletedRequest, struct FPlayerNameQuery Query);
+
 	//==================================================
     //Leaderboard
     //==================================================

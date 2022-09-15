@@ -26,6 +26,8 @@ FLootLockerServerEndPoints ULootLockerServerGameEndpoints::ListFilesForPlayerEnd
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::GetFileByIdForPlayerEndpoint = InitEndpoint("players/{0}/files/{1}", ELootLockerServerHTTPMethod::GET);
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::DeleteFileForPlayerEndpoint = InitEndpoint("players/{0}/files/{1}", ELootLockerServerHTTPMethod::DELETE);
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::UploadFileForPlayerEndpoint = InitEndpoint("players/{0}/files", ELootLockerServerHTTPMethod::POST);
+// PLayer Lookup
+FLootLockerServerEndPoints ULootLockerServerGameEndpoints::LookupPlayerNamesEndpoint = InitEndpoint("players/lookup/name", ELootLockerServerHTTPMethod::GET);
 //Characters & Heroes
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::GetPlayerCharactersEndpoint = InitEndpoint("player/{0}/characters", ELootLockerServerHTTPMethod::GET);
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::GetInventorytoCharacterEndpoint = InitEndpoint("player/{0}/character/{1}/inventory", ELootLockerServerHTTPMethod::GET);

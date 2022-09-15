@@ -208,3 +208,64 @@ void ULootLockerServerPlayerRequest::UnequipAssetForPlayerLoadout(int PlayerId, 
 
 	HttpClient->SendApi(endpoint, requestMethod, ContentString, sessionResponse, true);
 }
+
+void ULootLockerServerPlayerRequest::LookupPlayerNames(struct FPlayerNameQuery Query,
+	const FLookupPlayerNamesResponseBP& OnCompletedRequestBP, const FLookupPlayerNamesDelegate& OnCompletedRequest)
+{
+    FServerResponseCallback sessionResponse = FServerResponseCallback::CreateLambda([OnCompletedRequestBP, OnCompletedRequest](FLootLockerServerResponse response)
+        {
+            FLookupPlayerNamesResponse ResponseStruct;
+            if (response.success)
+            {
+                ResponseStruct.success = true;
+                FJsonObjectConverter::JsonObjectStringToUStruct<FLookupPlayerNamesResponse>(response.FullTextFromServer, &ResponseStruct, 0, 0);
+            }
+            else {
+                ResponseStruct.success = false;
+                UE_LOG(LogLootLockerServer, Error, TEXT("Getting player names failed from lootlocker"));
+            }
+            ResponseStruct.FullTextFromServer = response.FullTextFromServer;
+            OnCompletedRequestBP.ExecuteIfBound(ResponseStruct);
+            OnCompletedRequest.ExecuteIfBound(ResponseStruct);
+        });
+    FString const ContentString;
+    FLootLockerServerEndPoints Endpoint = ULootLockerServerGameEndpoints::LookupPlayerNamesEndpoint;
+	FString const requestMethod = ULootLockerServerConfig::GetEnum(TEXT("ELootLockerServerHTTPMethod"), static_cast<int32>(Endpoint.requestMethod));
+    TStringBuilder<8000> UrlBuilder;
+	UrlBuilder << Endpoint.endpoint;
+	bool FirstParameter = true; 
+    for (int32 const PlayerId : Query.PlayerIds) {
+        if (FirstParameter) {
+            UrlBuilder << "?";
+        	FirstParameter = false;
+        }
+    	else
+    	{
+            UrlBuilder << "&";
+    	}
+        UrlBuilder << "player_id=" << PlayerId;
+    }
+	for (FString const& Uid : Query.PublicUids) {
+		if (FirstParameter) {
+			UrlBuilder << "?";
+			FirstParameter = false;
+		}
+		else
+		{
+			UrlBuilder << "&";
+		}
+		UrlBuilder << "player_public_uid=" << Uid;
+	}
+	for (FPlatformId const& PlatformId : Query.PlatformIds) {
+		if (FirstParameter) {
+			UrlBuilder << "?";
+			FirstParameter = false;
+		}
+		else
+		{
+			UrlBuilder << "&";
+		}
+		UrlBuilder << PlatformId.Platform << "_id=" << PlatformId.Id;
+	}
+	HttpClient->SendApi(UrlBuilder.ToString(), requestMethod, ContentString, sessionResponse, true);
+}
