@@ -225,7 +225,7 @@ void ULootLockerServerPlayerRequest::UnequipAssetForPlayerLoadout(int PlayerId, 
 void ULootLockerServerPlayerRequest::LookupPlayerNames(FLookupPlayerNamesQuery const& Query,
 	const FLookupPlayerNamesResponseBP& OnCompletedRequestBP, const FLookupPlayerNamesDelegate& OnCompletedRequest)
 {
-    const FServerResponseCallback OnCompletedRequest = FServerResponseCallback::CreateLambda([OnCompletedRequestBP, OnCompletedRequest](FLootLockerServerResponse response)
+    const FServerResponseCallback OnCompleted = FServerResponseCallback::CreateLambda([OnCompletedRequestBP, OnCompletedRequest](FLootLockerServerResponse response)
         {
             FLookupPlayerNamesResponse ResponseStruct;
             if (response.success)
@@ -259,5 +259,5 @@ void ULootLockerServerPlayerRequest::LookupPlayerNames(FLookupPlayerNamesQuery c
 	AppendQueryParameters(TEXT("player_public_uid="), Query.PublicUids, Params);
 	AppendQueryParameters(TEXT("player_guest_login_id="), Query.GuestIds, Params);
 	FString const Url = Endpoint.endpoint + "?" + FString::Join(Params, TEXT("&"));
-	HttpClient->SendApi(Url, RequestMethod, ContentString, OnCompletedRequest, true);
+	HttpClient->SendApi(Url, RequestMethod, ContentString, OnCompleted, true);
 }
