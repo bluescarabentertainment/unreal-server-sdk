@@ -17,8 +17,7 @@ ULootLockerServerPlayerRequest::ULootLockerServerPlayerRequest()
 void ULootLockerServerPlayerRequest::GetInventory(int PlayerId, int StartFromIndex, int ItemsCount,
                                                   const FInventoryResponseBP& OnCompletedRequestBP, const FServerInventoryResponse& OnCompletedRequest)
 {
-	FString data;
-	FServerResponseCallback sessionResponse = FServerResponseCallback::CreateLambda([OnCompletedRequestBP, OnCompletedRequest](FLootLockerServerResponse response)
+	const FServerResponseCallback OnCompleted = FServerResponseCallback::CreateLambda([OnCompletedRequestBP, OnCompletedRequest](FLootLockerServerResponse response)
         {
             FLootLockerServerInventoryResponse ResponseStruct;
             if (response.success)
@@ -32,19 +31,19 @@ void ULootLockerServerPlayerRequest::GetInventory(int PlayerId, int StartFromInd
                 UE_LOG(LogLootLockerServer, Error, TEXT("Getting player failed from lootlocker"));
             }
             ResponseStruct.FullTextFromServer = response.FullTextFromServer;
-            OnCompletedRequestBP.ExecuteIfBound(ResponseStruct);
-            OnCompletedRequest.ExecuteIfBound(ResponseStruct);
+            (void) OnCompletedRequestBP.ExecuteIfBound(ResponseStruct);
+            (void) OnCompletedRequest.ExecuteIfBound(ResponseStruct);
         });
 	FLootLockerServerEndPoints Endpoint = ULootLockerServerGameEndpoints::GetPlayerInventoryEndpoint;
-	FString endpoint = FString::Format(*(Endpoint.endpoint), { PlayerId });
-	FString requestMethod = ULootLockerServerConfig::GetEnum(TEXT("ELootLockerServerHTTPMethod"), static_cast<int32>(Endpoint.requestMethod));
-	HttpClient->SendApi(endpoint, requestMethod, data, sessionResponse, true);
+	const FString Url = FString::Format(*(Endpoint.endpoint), { PlayerId });
+	const FString RequestMethod = ULootLockerServerConfig::GetEnum(TEXT("ELootLockerServerHTTPMethod"), static_cast<int32>(Endpoint.requestMethod));
+	HttpClient->SendApi(Url, RequestMethod, FString(), OnCompleted, true);
 }
 
 void ULootLockerServerPlayerRequest::AddAssetToPlayerInventory(int PlayerId, FLootLockerServerAddAssetData AddAssetData,
 	const FAddAssetResponseBP& OnCompletedRequestBP, const FAddAssetResponse& OnCompletedRequest)
 {
-	FServerResponseCallback sessionResponse = FServerResponseCallback::CreateLambda([OnCompletedRequestBP, OnCompletedRequest](FLootLockerServerResponse response)
+	FServerResponseCallback OnCompleted = FServerResponseCallback::CreateLambda([OnCompletedRequestBP, OnCompletedRequest](FLootLockerServerResponse response)
         {
             FLootLockerServerAddAssetResponse ResponseStruct;
             if (response.success)
@@ -58,11 +57,11 @@ void ULootLockerServerPlayerRequest::AddAssetToPlayerInventory(int PlayerId, FLo
                 UE_LOG(LogLootLockerServer, Error, TEXT("Getting player failed from lootlocker"));
             }
             ResponseStruct.FullTextFromServer = response.FullTextFromServer;
-            OnCompletedRequestBP.ExecuteIfBound(ResponseStruct);
-            OnCompletedRequest.ExecuteIfBound(ResponseStruct);
+            (void) OnCompletedRequestBP.ExecuteIfBound(ResponseStruct);
+            (void) OnCompletedRequest.ExecuteIfBound(ResponseStruct);
         });
 
-	TSharedRef<FJsonObject> ItemJson = MakeShareable(new FJsonObject());
+	const TSharedRef<FJsonObject> ItemJson = MakeShareable(new FJsonObject());
 	ItemJson->SetStringField(FString(TEXT("asset_id")), FString::FromInt(AddAssetData.asset_id));
 	if(AddAssetData.asset_variation_id > 0)
 	{
@@ -73,13 +72,13 @@ void ULootLockerServerPlayerRequest::AddAssetToPlayerInventory(int PlayerId, FLo
 		ItemJson->SetStringField(FString(TEXT("asset_rental_option_id")), FString::FromInt(AddAssetData.asset_rental_option_id));
 	}
 	FString ContentString;
-	TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&ContentString);
+	const TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&ContentString);
 	FJsonSerializer::Serialize(ItemJson, Writer);
 	FLootLockerServerEndPoints Endpoint = ULootLockerServerGameEndpoints::AddAssetsToPlayerInventoryEndpoint;
-	FString endpoint = FString::Format(*(Endpoint.endpoint), { PlayerId });
-	FString requestMethod = ULootLockerServerConfig::GetEnum(TEXT("ELootLockerServerHTTPMethod"), static_cast<int32>(Endpoint.requestMethod));
+	const FString Url = FString::Format(*(Endpoint.endpoint), { PlayerId });
+	const FString RequestMethod = ULootLockerServerConfig::GetEnum(TEXT("ELootLockerServerHTTPMethod"), static_cast<int32>(Endpoint.requestMethod));
 
-	HttpClient->SendApi(endpoint, requestMethod, ContentString, sessionResponse, true);
+	HttpClient->SendApi(Url, RequestMethod, ContentString, OnCompleted, true);
 }
 
 void ULootLockerServerPlayerRequest::AlterPlayerInventory(int PlayerId,
@@ -226,7 +225,7 @@ void ULootLockerServerPlayerRequest::UnequipAssetForPlayerLoadout(int PlayerId, 
 void ULootLockerServerPlayerRequest::LookupPlayerNames(FLookupPlayerNamesQuery const& Query,
 	const FLookupPlayerNamesResponseBP& OnCompletedRequestBP, const FLookupPlayerNamesDelegate& OnCompletedRequest)
 {
-    FServerResponseCallback sessionResponse = FServerResponseCallback::CreateLambda([OnCompletedRequestBP, OnCompletedRequest](FLootLockerServerResponse response)
+    const FServerResponseCallback OnCompletedRequest = FServerResponseCallback::CreateLambda([OnCompletedRequestBP, OnCompletedRequest](FLootLockerServerResponse response)
         {
             FLookupPlayerNamesResponse ResponseStruct;
             if (response.success)
@@ -239,12 +238,12 @@ void ULootLockerServerPlayerRequest::LookupPlayerNames(FLookupPlayerNamesQuery c
                 UE_LOG(LogLootLockerServer, Error, TEXT("Getting player names failed from lootlocker"));
             }
             ResponseStruct.FullTextFromServer = response.FullTextFromServer;
-            OnCompletedRequestBP.ExecuteIfBound(ResponseStruct);
-            OnCompletedRequest.ExecuteIfBound(ResponseStruct);
+            (void) OnCompletedRequestBP.ExecuteIfBound(ResponseStruct);
+            (void) OnCompletedRequest.ExecuteIfBound(ResponseStruct);
         });
     FString const ContentString;
     FLootLockerServerEndPoints Endpoint = ULootLockerServerGameEndpoints::LookupPlayerNamesEndpoint;
-	FString const requestMethod = ULootLockerServerConfig::GetEnum(TEXT("ELootLockerServerHTTPMethod"), static_cast<int32>(Endpoint.requestMethod));
+	FString const RequestMethod = ULootLockerServerConfig::GetEnum(TEXT("ELootLockerServerHTTPMethod"), static_cast<int32>(Endpoint.requestMethod));
 
 	TArray<FString> Params;
 	if (!Query.PlayerIds.IsEmpty())
@@ -260,5 +259,5 @@ void ULootLockerServerPlayerRequest::LookupPlayerNames(FLookupPlayerNamesQuery c
 	AppendQueryParameters(TEXT("player_public_uid="), Query.PublicUids, Params);
 	AppendQueryParameters(TEXT("player_guest_login_id="), Query.GuestIds, Params);
 	FString const Url = Endpoint.endpoint + "?" + FString::Join(Params, TEXT("&"));
-	HttpClient->SendApi(Url, requestMethod, ContentString, sessionResponse, true);
+	HttpClient->SendApi(Url, RequestMethod, ContentString, OnCompletedRequest, true);
 }
