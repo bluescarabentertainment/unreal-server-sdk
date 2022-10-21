@@ -57,7 +57,7 @@ void ULootLockerServerHttpClient::SendApi(const FString& endPoint, const FString
 				return;
 			}
 
-			UE_LOG(LogLootLockerServer, Log, TEXT("Response code: %d; Response content:\n%s"), Response->GetResponseCode(), *ResponseString);
+			UE_LOG(LogLootLockerServer, Verbose, TEXT("Response code: %d; Response content:\n%s"), Response->GetResponseCode(), *ResponseString);
 			response.success = true;
 			response.FullTextFromServer = Response->GetContentAsString();
 			response.ServerCallHasError = false;
@@ -168,7 +168,7 @@ void ULootLockerServerHttpClient::UploadFile(const FString& endPoint, const FStr
 			response.ServerCallStatusCode = Response->GetResponseCode();
 			response.ServerError = Response->GetContentAsString();
 
-			UE_LOG(LogLootLockerServer, Log, TEXT("Response code: %d; Response content:\n%s"), Response->GetResponseCode(), *ResponseString);
+			UE_LOG(LogLootLockerServer, Verbose, TEXT("Response code: %d; Response content:\n%s"), Response->GetResponseCode(), *ResponseString);
 			bool success = ResponseIsValid(Response, bWasSuccessful);
 
 			response.success = success;

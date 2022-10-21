@@ -27,7 +27,7 @@ struct FLootLockerServerPingResponse : public FLootLockerServerResponse
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "LootLocker")
-	int32 pong;
+	int32 pong = 0;
 };
 
 DECLARE_DYNAMIC_DELEGATE_OneParam(FServerPingResponseBP, FLootLockerServerPingResponse, Var);
