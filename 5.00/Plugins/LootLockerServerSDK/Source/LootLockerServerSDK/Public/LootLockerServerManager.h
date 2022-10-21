@@ -6,6 +6,7 @@
 #include "ServerAPI/LootLockerServerAuthRequest.h"
 #include "ServerAPI/LootLockerServerPlayerRequest.h"
 #include "ServerAPI/LootLockerServerAssetRequest.h"
+#include "ServerAPI/LootLockerServerAssetInstanceRequest.h"
 #include "ServerAPI/LootLockerServerCharacterRequest.h"
 #include "ServerAPI/LootLockerServerFilesRequest.h"
 #include "ServerAPI/LootLockerServerHeroesRequest.h"
@@ -42,7 +43,25 @@ public:
     UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Authentication")
     static void MaintainSession(const FServerPingResponseBP& OnPingRequestCompleted);
 
-    /**
+	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Asset Instances")
+	static void GetAllKeyValuePairsForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId);
+
+	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Asset Instances")
+	static void GetKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, int PairId);
+
+	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Asset Instances")
+	static void UpdateKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, const FLootLockerServerKeyValue& Pair);
+
+	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Asset Instances")
+	static void UpdateKeyValuePairsForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, const TArray<FLootLockerServerKeyValue>& Pairs);
+
+	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Asset Instances")
+	static void DeleteKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, int PairId);
+
+	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Asset Instances")
+	static void CreateKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, const FString& Key, const FString& Value);
+
+	/**
     * Get all assets in a paginated form.
     *
     * @param StartFromIndex - index of the item to start from.

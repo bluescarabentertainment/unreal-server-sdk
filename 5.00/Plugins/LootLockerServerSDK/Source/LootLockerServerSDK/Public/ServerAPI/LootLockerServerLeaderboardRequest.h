@@ -106,6 +106,10 @@ struct FLootLockerServerSubmitScoreRequest
     FString member_id;
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "LootLocker")
     int score = 0;
+
+    FLootLockerServerSubmitScoreRequest(const FString & MemberId = "", int Score = 0) :
+        member_id(MemberId), score(Score)
+    {}
 };
 
 USTRUCT(BlueprintType)

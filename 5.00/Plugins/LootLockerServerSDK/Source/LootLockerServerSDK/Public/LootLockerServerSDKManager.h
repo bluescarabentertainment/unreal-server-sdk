@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ServerAPI/LootLockerServerAssetRequest.h"
+#include "ServerAPI/LootLockerServerAssetInstanceRequest.h"
 #include "ServerAPI/LootLockerServerAuthRequest.h"
 #include "ServerAPI/LootLockerServerCharacterRequest.h"
 #include "ServerAPI/LootLockerServerFilesRequest.h"
@@ -29,12 +30,16 @@ public:
     
     /**
      * Register a session.
-     * @param PlayerId - the ID of the player on the platform the game is currently running on.
      * @param OnCompletedRequest - callback to be invoked with the server response.
-     * https://docs.lootlocker.io/game-api/#authentication-request
+     * @see https://ref.lootlocker.com/server-api/#registering-a-server-session
      */
 	static void StartSession(const FServerAuthResponse& OnCompletedRequest);
 
+	/**
+	 * Maintain the server session.
+	 * @param OnCompletedRequest - callback to be invoked with the server response.
+	 * @see https://ref.lootlocker.com/server-api/#maintaining-a-server-session
+	 */
     static void MaintainSession(const FServerPingResponse& OnCompletedRequest);
 
 	/**
@@ -45,9 +50,74 @@ public:
 	* @param ItemsCount - number of items to receive (50-200).
 	* @param AssetFilter - optional filter.
 	* @param IncludeUGC - whether to include UGC Assets.
-	* https://docs.lootlocker.io/game-api/#getting-asset-list
+	* @see https://ref.lootlocker.com/server-api/#get-assets-to-game
 	*/
 	static void GetAssetsToGame(const FServerAssetsResponseDelegate& OnCompletedRequest, int StartFromIndex = 0, int ItemsCount = 50, ELootLockerServerAssetFilter AssetFilter = ELootLockerServerAssetFilter::None, bool IncludeUGC = false);
+
+	/**
+	* Get all key/value pairs for an asset instance.
+	*
+	* @param OnCompletedRequest - callback to be invoked with the server response.
+	* @param PlayerId - Player identifier.
+	* @param AssetInstanceId - AssetInstance identifier.
+	* @see https://ref.lootlocker.com/server-api/#getting-all-key-value-pairs-to-an-instance
+	*/
+	static void GetAllKeyValuePairsForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId);
+
+	/**
+	* Get a key/value pair for an asset instance.
+	*
+	* @param OnCompletedRequest - callback to be invoked with the server response.
+	* @param PlayerId - Player identifier.
+	* @param AssetInstanceId - AssetInstance identifier.
+	* @param PairId - The identifier of the pair to read.
+	* @see https://ref.lootlocker.com/server-api/#getting-a-key-value-pair-by-id
+	*/
+	static void GetKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId, int PairId);
+
+	/**
+	* Update one or more key/value pairs by id.
+	*
+	* @param OnCompletedRequest - callback to be invoked with the server response.
+	* @param PlayerId - Player identifier.
+	* @param AssetInstanceId - AssetInstance identifier.
+	* @param Pairs - The pairs to update.
+	* @see https://ref.lootlocker.com/server-api/#updating-one-or-more-key-value-pairs
+	*/
+	static void UpdateKeyValuePairsForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId, const TArray<FLootLockerServerKeyValue>& Pairs);
+
+	/**
+	* Update a key/value pair by id.
+	*
+	* @param OnCompletedRequest - callback to be invoked with the server response.
+	* @param PlayerId - Player identifier.
+	* @param AssetInstanceId - AssetInstance identifier.
+	* @param Pair - The pair to update.
+	* @see https://ref.lootlocker.com/server-api/#updating-a-key-value-pair-by-id
+	*/
+	static void UpdateKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId, const FLootLockerServerKeyValue& Pair);
+
+	/**
+	* Delete a key/value pair for an asset instance.
+	*
+	* @param OnCompletedRequest - callback to be invoked with the server response.
+	* @param PlayerId - Player identifier.
+	* @param AssetInstanceId - AssetInstance identifier.
+	* @param PairId - The identifier of the pair to delete.
+	* @see https://ref.lootlocker.com/server-api/#delete-a-key-value-pair
+	*/
+	static void DeleteKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId, int PairId);
+
+	/**
+	* Create key/value pairs for an asset instance.
+	*
+	* @param OnCompletedRequest - callback to be invoked with the server response.
+	* @param PlayerId - Player identifier.
+	* @param AssetInstanceId - AssetInstance identifier.
+	* @param Pair - struct containing key and value (and an id that is ignored).
+	* @see https://ref.lootlocker.com/server-api/#creating-a-key-value-pair
+	*/
+	static void CreateKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId, const FLootLockerServerKeyValue& Pair);
 
 	/**
 	* Get a paginated list of the players inventory.
