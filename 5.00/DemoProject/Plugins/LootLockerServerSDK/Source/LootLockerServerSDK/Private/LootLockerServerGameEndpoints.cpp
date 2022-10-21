@@ -9,8 +9,16 @@ FString ULootLockerServerGameEndpoints::GameBaseUrl = "https://api.lootlocker.io
 //Auth
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::StartSessionEndpoint = InitEndpoint("session", ELootLockerServerHTTPMethod::POST);
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::MaintainSessionEndpoint = InitEndpoint("ping", ELootLockerServerHTTPMethod::GET);
-
+// Assets
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::GetAssetsToGameEndpoint = InitEndpoint("assets", ELootLockerServerHTTPMethod::GET);
+// Asset Instances
+FLootLockerServerEndPoints ULootLockerServerGameEndpoints::GetAllKeyValuePairsForAssetInstanceEndpoint = InitEndpoint("player/{0}/assets/instances/{1}/storage", ELootLockerServerHTTPMethod::GET);
+FLootLockerServerEndPoints ULootLockerServerGameEndpoints::CreateKeyValuePairForAssetInstanceEndpoint = InitEndpoint("player/{0}/assets/instances/{1}/storage", ELootLockerServerHTTPMethod::POST);
+FLootLockerServerEndPoints ULootLockerServerGameEndpoints::UpdateKeyValuePairsForAssetInstanceEndpoint = InitEndpoint("player/{0}/assets/instances/{1}/storage", ELootLockerServerHTTPMethod::PUT);
+FLootLockerServerEndPoints ULootLockerServerGameEndpoints::GetKeyValuePairForAssetInstanceEndpoint = InitEndpoint("player/{0}/assets/instances/{1}/storage/{2}", ELootLockerServerHTTPMethod::GET);
+FLootLockerServerEndPoints ULootLockerServerGameEndpoints::UpdateKeyValuePairForAssetInstanceEndpoint = InitEndpoint("player/{0}/assets/instances/{1}/storage/{2}", ELootLockerServerHTTPMethod::PUT);
+FLootLockerServerEndPoints ULootLockerServerGameEndpoints::DeleteKeyValuePairForAssetInstanceEndpoint = InitEndpoint("player/{0}/assets/instances/{1}/storage/{2}", ELootLockerServerHTTPMethod::DELETE);
+
 //Player Inventory
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::GetPlayerInventoryEndpoint = InitEndpoint("player/{0}/inventory", ELootLockerServerHTTPMethod::GET);
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::AddAssetsToPlayerInventoryEndpoint = InitEndpoint("player/{0}/inventory", ELootLockerServerHTTPMethod::POST);
@@ -26,9 +34,10 @@ FLootLockerServerEndPoints ULootLockerServerGameEndpoints::ListFilesForPlayerEnd
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::GetFileByIdForPlayerEndpoint = InitEndpoint("players/{0}/files/{1}", ELootLockerServerHTTPMethod::GET);
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::DeleteFileForPlayerEndpoint = InitEndpoint("players/{0}/files/{1}", ELootLockerServerHTTPMethod::DELETE);
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::UploadFileForPlayerEndpoint = InitEndpoint("players/{0}/files", ELootLockerServerHTTPMethod::POST);
-// PLayer Lookup
+// Player Lookup
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::LookupPlayerNamesEndpoint = InitEndpoint("players/lookup/name", ELootLockerServerHTTPMethod::GET);
-//Characters & Heroes
+
+// Characters & Heroes
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::GetPlayerCharactersEndpoint = InitEndpoint("player/{0}/characters", ELootLockerServerHTTPMethod::GET);
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::GetInventorytoCharacterEndpoint = InitEndpoint("player/{0}/character/{1}/inventory", ELootLockerServerHTTPMethod::GET);
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::GetCharacterLoadoutEndpoint = InitEndpoint("player/{0}/characters/{1}/loadout", ELootLockerServerHTTPMethod::GET);

@@ -20,6 +20,44 @@ void ULootLockerServerSDKManager::GetAssetsToGame(const FServerAssetsResponseDel
 	ULootLockerServerAssetRequest::GetAssetsToGame(StartFromIndex, ItemsCount, AssetFilter, IncludeUGC, FServerAssetsResponseDelegateBP(), OnCompletedRequest);
 }
 
+void ULootLockerServerSDKManager::GetAllKeyValuePairsForAssetInstance(
+	const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest,
+	int PlayerId, int AssetInstanceId)
+{
+	ULootLockerServerAssetInstanceRequest::GetAllKeyValuePairs(PlayerId, AssetInstanceId, FServerAssetInstanceKeyValuesResponseDelegateBP(), OnCompletedRequest);
+}
+
+void ULootLockerServerSDKManager::GetKeyValuePairForAssetInstance(
+	const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId,
+	int PairId)
+{
+	ULootLockerServerAssetInstanceRequest::GetKeyValuePair(PlayerId, AssetInstanceId, PairId, FServerAssetInstanceKeyValuesResponseDelegateBP(), OnCompletedRequest);
+}
+
+void ULootLockerServerSDKManager::UpdateKeyValuePairsForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId, const TArray<FLootLockerServerKeyValue>& Pairs)
+{
+	ULootLockerServerAssetInstanceRequest::UpdateKeyValuePairs(PlayerId, AssetInstanceId, Pairs, FServerAssetInstanceKeyValuesResponseDelegateBP(), OnCompletedRequest);
+}
+
+void ULootLockerServerSDKManager::UpdateKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId, const FLootLockerServerKeyValue& Pair)
+{
+	ULootLockerServerAssetInstanceRequest::UpdateKeyValuePair(PlayerId, AssetInstanceId, Pair, FServerAssetInstanceKeyValuesResponseDelegateBP(), OnCompletedRequest);
+}
+
+void ULootLockerServerSDKManager::DeleteKeyValuePairForAssetInstance(
+	const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId,
+	int PairId)
+{
+	ULootLockerServerAssetInstanceRequest::DeleteKeyValuePair(PlayerId, AssetInstanceId, PairId, FServerAssetInstanceKeyValuesResponseDelegateBP(), OnCompletedRequest);
+}
+
+void ULootLockerServerSDKManager::CreateKeyValuePairForAssetInstance(
+	const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest,
+	int PlayerId, int AssetInstanceId, const FLootLockerServerKeyValue& Item)
+{
+	ULootLockerServerAssetInstanceRequest::CreateKeyValuePair(PlayerId, AssetInstanceId, Item, FServerAssetInstanceKeyValuesResponseDelegateBP(), OnCompletedRequest);
+}
+
 void ULootLockerServerSDKManager::GetInventory(const FServerInventoryResponse& OnGetInventoryRequestCompleted,
 	int PlayerId, int StartFromIndex, int ItemsCount)
 {
@@ -150,16 +188,13 @@ void ULootLockerServerSDKManager::UpdateLeaderboard(const FLootLockerServerUpdat
 void ULootLockerServerSDKManager::DeleteLeaderboard(int LeaderboardId, const FLootLockerServerDeleteLeaderboardResponseDelegate& OnCompletedRequest)
 {
 	ULootLockerServerLeaderboardRequest::DeleteLeaderboard(LeaderboardId, FLootLockerServerDeleteLeaderboardResponseBP(), OnCompletedRequest);
-
 }
 
 void ULootLockerServerSDKManager::SubmitScore(FString MemberId, int LeaderboardId, int Score, const FLootLockerServerSubmitScoreResponseDelegate& OnCompletedRequest)
 {
-	FLootLockerServerSubmitScoreRequest score = FLootLockerServerSubmitScoreRequest();
-	score.member_id = MemberId;
-	score.score = Score;
+	const FLootLockerServerSubmitScoreRequest ScoreRequest(MemberId, Score);
 
-	ULootLockerServerLeaderboardRequest::SubmitScore(score, LeaderboardId, FLootLockerServerSubmitScoreResponseBP(), OnCompletedRequest);
+	ULootLockerServerLeaderboardRequest::SubmitScore(ScoreRequest, LeaderboardId, FLootLockerServerSubmitScoreResponseBP(), OnCompletedRequest);
 }
 
 void ULootLockerServerSDKManager::ListFilesForPlayer(int PlayerId,
