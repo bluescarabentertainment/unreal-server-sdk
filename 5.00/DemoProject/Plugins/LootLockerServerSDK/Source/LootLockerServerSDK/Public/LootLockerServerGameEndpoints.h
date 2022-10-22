@@ -18,8 +18,8 @@ public:
     static FLootLockerServerEndPoints GetAssetsToGameEndpoint;
     // Asset Instances
     static FLootLockerServerEndPoints GetAllKeyValuePairsForAssetInstanceEndpoint;
-    static FLootLockerServerEndPoints CreateKeyValuePairForAssetInstanceEndpoint;
     static FLootLockerServerEndPoints UpdateKeyValuePairsForAssetInstanceEndpoint;
+    static FLootLockerServerEndPoints CreateKeyValuePairForAssetInstanceEndpoint;
     static FLootLockerServerEndPoints GetKeyValuePairForAssetInstanceEndpoint;
     static FLootLockerServerEndPoints UpdateKeyValuePairForAssetInstanceEndpoint;
     static FLootLockerServerEndPoints DeleteKeyValuePairForAssetInstanceEndpoint;

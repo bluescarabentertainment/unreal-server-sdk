@@ -13,8 +13,8 @@ FLootLockerServerEndPoints ULootLockerServerGameEndpoints::MaintainSessionEndpoi
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::GetAssetsToGameEndpoint = InitEndpoint("assets", ELootLockerServerHTTPMethod::GET);
 // Asset Instances
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::GetAllKeyValuePairsForAssetInstanceEndpoint = InitEndpoint("player/{0}/assets/instances/{1}/storage", ELootLockerServerHTTPMethod::GET);
-FLootLockerServerEndPoints ULootLockerServerGameEndpoints::CreateKeyValuePairForAssetInstanceEndpoint = InitEndpoint("player/{0}/assets/instances/{1}/storage", ELootLockerServerHTTPMethod::POST);
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::UpdateKeyValuePairsForAssetInstanceEndpoint = InitEndpoint("player/{0}/assets/instances/{1}/storage", ELootLockerServerHTTPMethod::PUT);
+FLootLockerServerEndPoints ULootLockerServerGameEndpoints::CreateKeyValuePairForAssetInstanceEndpoint = InitEndpoint("player/{0}/assets/instances/{1}/storage", ELootLockerServerHTTPMethod::POST);
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::GetKeyValuePairForAssetInstanceEndpoint = InitEndpoint("player/{0}/assets/instances/{1}/storage/{2}", ELootLockerServerHTTPMethod::GET);
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::UpdateKeyValuePairForAssetInstanceEndpoint = InitEndpoint("player/{0}/assets/instances/{1}/storage/{2}", ELootLockerServerHTTPMethod::PUT);
 FLootLockerServerEndPoints ULootLockerServerGameEndpoints::DeleteKeyValuePairForAssetInstanceEndpoint = InitEndpoint("player/{0}/assets/instances/{1}/storage/{2}", ELootLockerServerHTTPMethod::DELETE);

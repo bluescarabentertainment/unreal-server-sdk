@@ -8,7 +8,7 @@
 #include "LootLockerServerAssetInstanceRequest.generated.h"
 
 USTRUCT(BlueprintType)
-struct FLootLockerServerKeyValue
+struct FLootLockerServerAssetInstanceStorageItem
 {
     GENERATED_BODY()
 
@@ -16,35 +16,47 @@ struct FLootLockerServerKeyValue
     FString key;
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "LootLocker")
 	FString value;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "LootLocker")
-	int32 id = 0;
 
-	FLootLockerServerKeyValue(const FString& Key = "", const FString & Value = "", int32 Id = 0) :
-		key(Key), value(Value), id(Id)
+	FLootLockerServerAssetInstanceStorageItem(const FString& Key = "", const FString & Value = "") :
+		key(Key), value(Value)
 	{
 	}
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetAssetInstanceKeyValueArrayResponse : public FLootLockerServerResponse
+struct FLootLockerServerAssetInstanceStorageResponseItem : public FLootLockerServerAssetInstanceStorageItem
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "LootLocker")
+	int32 id = 0;
+
+	FLootLockerServerAssetInstanceStorageResponseItem(const FString& Key = "", const FString & Value = "", int32 Id = 0) :
+		FLootLockerServerAssetInstanceStorageItem(Key, Value), id(Id)
+	{
+	}
+};
+
+USTRUCT(BlueprintType)
+struct FLootLockerServerAssetInstanceStorageItems
 {
 	GENERATED_BODY()
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "LootLocker")
-	TArray<FLootLockerServerKeyValue> storage;
+	TArray<FLootLockerServerAssetInstanceStorageItem> storage;
 };
 
-USTRUCT()
-struct FServerUpdateAssetInstanceKeyValueArrayRequest
+
+USTRUCT(BlueprintType)
+struct FLootLockerServerAssetInstanceStorageItemsResponse : public FLootLockerServerResponse
 {
 	GENERATED_BODY()
-	UPROPERTY()
-	TArray<FLootLockerServerKeyValue> storage;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "LootLocker")
+	TArray<FLootLockerServerAssetInstanceStorageResponseItem> storage;
 };
 
+DECLARE_DYNAMIC_DELEGATE_OneParam(FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP, FLootLockerServerAssetInstanceStorageItemsResponse, Response);
 
-DECLARE_DYNAMIC_DELEGATE_OneParam(FServerAssetInstanceKeyValuesResponseDelegateBP, FServerGetAssetInstanceKeyValueArrayResponse, Response);
-
-DECLARE_DELEGATE_OneParam(FServerAssetInstanceKeyValuesResponseDelegate, FServerGetAssetInstanceKeyValueArrayResponse);
+DECLARE_DELEGATE_OneParam(FLootLockerServerAssetInstanceStorageItemsResponseDelegate, FLootLockerServerAssetInstanceStorageItemsResponse);
 
 /**
  * 
@@ -58,12 +70,12 @@ class LOOTLOCKERSERVERSDK_API ULootLockerServerAssetInstanceRequest : public UOb
 
 	ULootLockerServerAssetInstanceRequest();
 
-	static void GetAllKeyValuePairs(int PlayerId, int AssetInstanceId, const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequestBP = FServerAssetInstanceKeyValuesResponseDelegateBP(), const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest = FServerAssetInstanceKeyValuesResponseDelegate());
-	static void GetKeyValuePair(int PlayerId, int AssetInstanceId, int PairId, const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequestBP = FServerAssetInstanceKeyValuesResponseDelegateBP(), const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest = FServerAssetInstanceKeyValuesResponseDelegate());
-	static void UpdateKeyValuePairs(int PlayerId, int AssetInstanceId, const TArray<FLootLockerServerKeyValue>& Pairs, const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequestBP = FServerAssetInstanceKeyValuesResponseDelegateBP(), const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest = FServerAssetInstanceKeyValuesResponseDelegate());
-	static void UpdateKeyValuePair(int PlayerId, int AssetInstanceId, const FLootLockerServerKeyValue& Pair, const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequestBP = FServerAssetInstanceKeyValuesResponseDelegateBP(), const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest = FServerAssetInstanceKeyValuesResponseDelegate());
-	static void DeleteKeyValuePair(int PlayerId, int AssetInstanceId, int PairId, const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequestBP = FServerAssetInstanceKeyValuesResponseDelegateBP(), const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest = FServerAssetInstanceKeyValuesResponseDelegate());
-	static void CreateKeyValuePair(int PlayerId, int AssetInstanceId, const FLootLockerServerKeyValue& Pair, const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequestBP = FServerAssetInstanceKeyValuesResponseDelegateBP(), const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest = FServerAssetInstanceKeyValuesResponseDelegate());
+	static void GetAllKeyValuePairs(int PlayerId, int AssetInstanceId, const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequestBP = FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP(), const FLootLockerServerAssetInstanceStorageItemsResponseDelegate& OnCompletedRequest = FLootLockerServerAssetInstanceStorageItemsResponseDelegate());
+	static void UpdateKeyValuePairs(int PlayerId, int AssetInstanceId, const TArray<FLootLockerServerAssetInstanceStorageItem>& Pairs, const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequestBP = FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP(), const FLootLockerServerAssetInstanceStorageItemsResponseDelegate& OnCompletedRequest = FLootLockerServerAssetInstanceStorageItemsResponseDelegate());
+	static void CreateKeyValuePair(int PlayerId, int AssetInstanceId, const FLootLockerServerAssetInstanceStorageItem& Pair, const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequestBP = FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP(), const FLootLockerServerAssetInstanceStorageItemsResponseDelegate& OnCompletedRequest = FLootLockerServerAssetInstanceStorageItemsResponseDelegate());
+	static void GetKeyValuePair(int PlayerId, int AssetInstanceId, int PairId, const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequestBP = FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP(), const FLootLockerServerAssetInstanceStorageItemsResponseDelegate& OnCompletedRequest = FLootLockerServerAssetInstanceStorageItemsResponseDelegate());
+	static void UpdateKeyValuePair(int PlayerId, int AssetInstanceId, int PairId, const FLootLockerServerAssetInstanceStorageItem& Pair, const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequestBP = FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP(), const FLootLockerServerAssetInstanceStorageItemsResponseDelegate& OnCompletedRequest = FLootLockerServerAssetInstanceStorageItemsResponseDelegate());
+	static void DeleteKeyValuePair(int PlayerId, int AssetInstanceId, int PairId, const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequestBP = FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP(), const FLootLockerServerAssetInstanceStorageItemsResponseDelegate& OnCompletedRequest = FLootLockerServerAssetInstanceStorageItemsResponseDelegate());
 
 	static ULootLockerServerHttpClient* HttpClient;
 };

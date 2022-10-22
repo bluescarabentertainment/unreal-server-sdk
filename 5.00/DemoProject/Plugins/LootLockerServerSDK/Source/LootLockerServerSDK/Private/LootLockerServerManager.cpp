@@ -12,52 +12,52 @@ void ULootLockerServerManager::SetConfig(FString LootLockerServerKey, bool OnDev
     config->SaveConfig();
 }
 
-void ULootLockerServerManager::StartSession(const FServerAuthResponseBP& OnStartedSessionRequestCompleted)
+void ULootLockerServerManager::StartSession(const FServerAuthResponseBP& OnCompletedRequest)
 {
-    ULootLockerServerAuthRequest::StartSession(OnStartedSessionRequestCompleted);
+    ULootLockerServerAuthRequest::StartSession(OnCompletedRequest);
 }
-void ULootLockerServerManager::MaintainSession(const FServerPingResponseBP& OnPingRequestCompleted)
+void ULootLockerServerManager::MaintainSession(const FServerPingResponseBP& OnCompletedRequest)
 {
-    ULootLockerServerAuthRequest::MaintainSession(OnPingRequestCompleted);
+    ULootLockerServerAuthRequest::MaintainSession(OnCompletedRequest);
 }
 
-void ULootLockerServerManager::GetAllKeyValuePairsForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId)
+void ULootLockerServerManager::GetAllKeyValuePairsForAssetInstance(const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId)
 {
     ULootLockerServerAssetInstanceRequest::GetAllKeyValuePairs(PlayerId, AssetInstanceId, OnCompletedRequest);
 }
 
+void ULootLockerServerManager::UpdateKeyValuePairsForAssetInstance(
+    const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId,
+    const TArray<FLootLockerServerAssetInstanceStorageItem>& Pairs)
+{
+    ULootLockerServerAssetInstanceRequest::UpdateKeyValuePairs(PlayerId, AssetInstanceId, Pairs, OnCompletedRequest);
+}
+
+void ULootLockerServerManager::CreateKeyValuePairForAssetInstance(const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, const FString& Key, const FString& Value)
+{
+    const FLootLockerServerAssetInstanceStorageItem Item(Key, Value);
+    ULootLockerServerAssetInstanceRequest::CreateKeyValuePair(PlayerId, AssetInstanceId, Item, OnCompletedRequest);
+}
+
 void ULootLockerServerManager::GetKeyValuePairForAssetInstance(
-    const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId,
+    const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId,
     int PairId)
 {
     ULootLockerServerAssetInstanceRequest::GetKeyValuePair(PlayerId, AssetInstanceId, PairId, OnCompletedRequest);
 }
 
 void ULootLockerServerManager::UpdateKeyValuePairForAssetInstance(
-    const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId,
-    const FLootLockerServerKeyValue& Pair)
+    const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, int PairId,
+    const FLootLockerServerAssetInstanceStorageItem& Pair)
 {
-    ULootLockerServerAssetInstanceRequest::UpdateKeyValuePair(PlayerId, AssetInstanceId, Pair, OnCompletedRequest);
-}
-
-void ULootLockerServerManager::UpdateKeyValuePairsForAssetInstance(
-    const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId,
-    const TArray<FLootLockerServerKeyValue>& Pairs)
-{
-    ULootLockerServerAssetInstanceRequest::UpdateKeyValuePairs(PlayerId, AssetInstanceId, Pairs, OnCompletedRequest);
+    ULootLockerServerAssetInstanceRequest::UpdateKeyValuePair(PlayerId, AssetInstanceId, PairId, Pair, OnCompletedRequest);
 }
 
 void ULootLockerServerManager::DeleteKeyValuePairForAssetInstance(
-    const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId,
+    const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId,
     int PairId)
 {
     ULootLockerServerAssetInstanceRequest::DeleteKeyValuePair(PlayerId, AssetInstanceId, PairId, OnCompletedRequest);
-}
-
-void ULootLockerServerManager::CreateKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, const FString& Key, const FString& Value)
-{
-    const FLootLockerServerKeyValue Item(Key, Value);
-    ULootLockerServerAssetInstanceRequest::CreateKeyValuePair(PlayerId, AssetInstanceId, Item, OnCompletedRequest);
 }
 
 void ULootLockerServerManager::GetAssetsToGame(const FServerAssetsResponseDelegateBP& OnGetAssetsRequestCompleted,

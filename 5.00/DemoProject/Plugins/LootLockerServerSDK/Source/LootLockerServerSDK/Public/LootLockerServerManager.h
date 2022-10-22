@@ -35,31 +35,32 @@ public:
     /**
     * Register a session.
     *
-    * @param PlayerId - the ID of the player on the platform the game is currently running on.
+    * @param OnCompletedRequest -  callback to be invoked with the server response.
     *  https://docs.lootlocker.io/game-api/#authentication-request
     */
     UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Authentication")
-    static void StartSession(const FServerAuthResponseBP& OnStartedSessionRequestCompleted);
-    UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Authentication")
-    static void MaintainSession(const FServerPingResponseBP& OnPingRequestCompleted);
+    static void StartSession(const FServerAuthResponseBP& OnCompletedRequest);
+
+	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Authentication")
+    static void MaintainSession(const FServerPingResponseBP& OnCompletedRequest);
 
 	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Asset Instances")
-	static void GetAllKeyValuePairsForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId);
+	static void GetAllKeyValuePairsForAssetInstance(const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId);
 
 	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Asset Instances")
-	static void GetKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, int PairId);
+	static void UpdateKeyValuePairsForAssetInstance(const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, const TArray<FLootLockerServerAssetInstanceStorageItem>& Pairs);
 
 	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Asset Instances")
-	static void UpdateKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, const FLootLockerServerKeyValue& Pair);
+	static void CreateKeyValuePairForAssetInstance(const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, const FString& Key, const FString& Value);
 
 	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Asset Instances")
-	static void UpdateKeyValuePairsForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, const TArray<FLootLockerServerKeyValue>& Pairs);
+	static void GetKeyValuePairForAssetInstance(const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, int PairId);
 
 	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Asset Instances")
-	static void DeleteKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, int PairId);
+	static void UpdateKeyValuePairForAssetInstance(const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, int PairId, const FLootLockerServerAssetInstanceStorageItem& Pair);
 
 	UFUNCTION(BlueprintCallable, Category = "LootLockerServer Methods | Asset Instances")
-	static void CreateKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, const FString& Key, const FString& Value);
+	static void DeleteKeyValuePairForAssetInstance(const FLootLockerServerAssetInstanceStorageItemsResponseDelegateBP& OnCompletedRequest, int PlayerId, int AssetInstanceId, int PairId);
 
 	/**
     * Get all assets in a paginated form.

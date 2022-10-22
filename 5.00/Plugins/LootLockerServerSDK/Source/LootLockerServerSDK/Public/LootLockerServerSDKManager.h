@@ -57,67 +57,74 @@ public:
 	/**
 	* Get all key/value pairs for an asset instance.
 	*
-	* @param OnCompletedRequest - callback to be invoked with the server response.
 	* @param PlayerId - Player identifier.
 	* @param AssetInstanceId - AssetInstance identifier.
+	* @param OnCompletedRequest - callback to be invoked with the server response.
 	* @see https://ref.lootlocker.com/server-api/#getting-all-key-value-pairs-to-an-instance
 	*/
-	static void GetAllKeyValuePairsForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId);
-
-	/**
-	* Get a key/value pair for an asset instance.
-	*
-	* @param OnCompletedRequest - callback to be invoked with the server response.
-	* @param PlayerId - Player identifier.
-	* @param AssetInstanceId - AssetInstance identifier.
-	* @param PairId - The identifier of the pair to read.
-	* @see https://ref.lootlocker.com/server-api/#getting-a-key-value-pair-by-id
-	*/
-	static void GetKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId, int PairId);
+	static void GetAllKeyValuePairsForAssetInstance(int PlayerId, int AssetInstanceId,
+		const FLootLockerServerAssetInstanceStorageItemsResponseDelegate& OnCompletedRequest = FLootLockerServerAssetInstanceStorageItemsResponseDelegate());
 
 	/**
 	* Update one or more key/value pairs by id.
 	*
-	* @param OnCompletedRequest - callback to be invoked with the server response.
 	* @param PlayerId - Player identifier.
 	* @param AssetInstanceId - AssetInstance identifier.
 	* @param Pairs - The pairs to update.
+	* @param OnCompletedRequest - callback to be invoked with the server response.
 	* @see https://ref.lootlocker.com/server-api/#updating-one-or-more-key-value-pairs
 	*/
-	static void UpdateKeyValuePairsForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId, const TArray<FLootLockerServerKeyValue>& Pairs);
-
-	/**
-	* Update a key/value pair by id.
-	*
-	* @param OnCompletedRequest - callback to be invoked with the server response.
-	* @param PlayerId - Player identifier.
-	* @param AssetInstanceId - AssetInstance identifier.
-	* @param Pair - The pair to update.
-	* @see https://ref.lootlocker.com/server-api/#updating-a-key-value-pair-by-id
-	*/
-	static void UpdateKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId, const FLootLockerServerKeyValue& Pair);
-
-	/**
-	* Delete a key/value pair for an asset instance.
-	*
-	* @param OnCompletedRequest - callback to be invoked with the server response.
-	* @param PlayerId - Player identifier.
-	* @param AssetInstanceId - AssetInstance identifier.
-	* @param PairId - The identifier of the pair to delete.
-	* @see https://ref.lootlocker.com/server-api/#delete-a-key-value-pair
-	*/
-	static void DeleteKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId, int PairId);
+	static void UpdateKeyValuePairsForAssetInstance(int PlayerId, int AssetInstanceId, const TArray<FLootLockerServerAssetInstanceStorageItem>& Pairs,
+		const FLootLockerServerAssetInstanceStorageItemsResponseDelegate& OnCompletedRequest = FLootLockerServerAssetInstanceStorageItemsResponseDelegate());
 
 	/**
 	* Create key/value pairs for an asset instance.
 	*
-	* @param OnCompletedRequest - callback to be invoked with the server response.
 	* @param PlayerId - Player identifier.
 	* @param AssetInstanceId - AssetInstance identifier.
-	* @param Pair - struct containing key and value (and an id that is ignored).
+	* @param Pair - The new key and value.
+	* @param OnCompletedRequest - callback to be invoked with the server response.
 	* @see https://ref.lootlocker.com/server-api/#creating-a-key-value-pair
 	*/
-	static void CreateKeyValuePairForAssetInstance(const FServerAssetInstanceKeyValuesResponseDelegate& OnCompletedRequest, int PlayerId, int AssetInstanceId, const FLootLockerServerKeyValue& Pair);
+	static void CreateKeyValuePairForAssetInstance(int PlayerId, int AssetInstanceId, const FLootLockerServerAssetInstanceStorageItem& Pair,
+		const FLootLockerServerAssetInstanceStorageItemsResponseDelegate& OnCompletedRequest = FLootLockerServerAssetInstanceStorageItemsResponseDelegate());
+
+	/**
+	* Get a key/value pair for an asset instance.
+	*
+	* @param PlayerId - Player identifier.
+	* @param AssetInstanceId - AssetInstance identifier.
+	* @param PairId - The identifier of the pair to read.
+	* @param OnCompletedRequest - callback to be invoked with the server response.
+	* @see https://ref.lootlocker.com/server-api/#getting-a-key-value-pair-by-id
+	*/
+	static void GetKeyValuePairForAssetInstance(int PlayerId, int AssetInstanceId, int PairId,
+		const FLootLockerServerAssetInstanceStorageItemsResponseDelegate& OnCompletedRequest = FLootLockerServerAssetInstanceStorageItemsResponseDelegate());
+
+	/**
+	* Update a key/value pair by id.
+	*
+	* @param PlayerId - Player identifier.
+	* @param AssetInstanceId - AssetInstance identifier.
+	* @param PairId - The identifier of the pair to update.
+	* @param Pair - The new key and value.
+	* @param OnCompletedRequest - callback to be invoked with the server response.
+	* @see https://ref.lootlocker.com/server-api/#updating-a-key-value-pair-by-id
+	*/
+	static void UpdateKeyValuePairForAssetInstance(int PlayerId, int AssetInstanceId, int PairId, const FLootLockerServerAssetInstanceStorageItem& Pair,
+		const FLootLockerServerAssetInstanceStorageItemsResponseDelegate& OnCompletedRequest = FLootLockerServerAssetInstanceStorageItemsResponseDelegate());
+
+	/**
+	* Delete a key/value pair for an asset instance.
+	*
+	* @param PlayerId - Player identifier.
+	* @param AssetInstanceId - AssetInstance identifier.
+	* @param PairId - The identifier of the pair to delete.
+	* @see https://ref.lootlocker.com/server-api/#delete-a-key-value-pair
+	* @param OnCompletedRequest - callback to be invoked with the server response.
+	*/
+	static void DeleteKeyValuePairForAssetInstance(int PlayerId, int AssetInstanceId, int PairId,
+		const FLootLockerServerAssetInstanceStorageItemsResponseDelegate& OnCompletedRequest = FLootLockerServerAssetInstanceStorageItemsResponseDelegate());
 
 	/**
 	* Get a paginated list of the players inventory.
