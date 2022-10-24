@@ -4,6 +4,9 @@
 # Visual Studio 2015 user specific files
 .vs/
 
+# Backup Files
+*.bak
+
 # Compiled Object files
 *.slo
 *.lo
