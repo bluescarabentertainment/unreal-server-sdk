@@ -16,6 +16,13 @@ public:
     static FLootLockerServerEndPoints MaintainSessionEndpoint;
     //Assets
     static FLootLockerServerEndPoints GetAssetsToGameEndpoint;
+    // Asset Instances
+    static FLootLockerServerEndPoints GetAllKeyValuePairsForAssetInstanceEndpoint;
+    static FLootLockerServerEndPoints UpdateKeyValuePairsForAssetInstanceEndpoint;
+    static FLootLockerServerEndPoints CreateKeyValuePairForAssetInstanceEndpoint;
+    static FLootLockerServerEndPoints GetKeyValuePairForAssetInstanceEndpoint;
+    static FLootLockerServerEndPoints UpdateKeyValuePairForAssetInstanceEndpoint;
+    static FLootLockerServerEndPoints DeleteKeyValuePairForAssetInstanceEndpoint;
     //Player Inventory
     static FLootLockerServerEndPoints GetPlayerInventoryEndpoint;
     static FLootLockerServerEndPoints AddAssetsToPlayerInventoryEndpoint;
